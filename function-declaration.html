@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Function Declaration - Interactive Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #fff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="%23ffffff08" points="0,1000 1000,800 1000,1000"/></svg>');
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: slideInDown 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: slideInUp 1s ease 0.3s both;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            animation: slideInUp 1s ease 0.6s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        }
+
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Main Content */
+        main {
+            background: white;
+            margin-top: -50px;
+            border-radius: 30px 30px 0 0;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
+        }
+
+        .section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #333;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* Interactive Code Editor */
+        .code-playground {
+            background: #1e1e1e;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .code-header {
+            background: #2d2d2d;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .code-dot.red { background: #ff5f56; }
+        .code-dot.yellow { background: #ffbd2e; }
+        .code-dot.green { background: #27ca3f; }
+
+        .code-title {
+            color: #fff;
+            margin-left: 10px;
+            font-weight: 500;
+        }
+
+        .code-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        textarea {
+            background: #1e1e1e;
+            color: #f8f8f2;
+            border: none;
+            padding: 1.5rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            min-height: 200px;
+            outline: none;
+        }
+
+        .code-actions {
+            background: #2d2d2d;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn.secondary {
+            background: #555;
+        }
+
+        .output {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            min-height: 100px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+
+        /* Concept Cards */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .concept-card:hover::before {
+            opacity: 1;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .concept-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .concept-card p {
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            color: white;
+            margin: 3rem 0;
+        }
+
+        .quiz-question {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-option {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .quiz-option.selected {
+            background: rgba(255,255,255,0.2);
+            border-color: #fff;
+        }
+
+        .quiz-option.correct {
+            background: rgba(46, 204, 113, 0.3);
+            border-color: #2ecc71;
+        }
+
+        .quiz-option.incorrect {
+            background: rgba(231, 76, 60, 0.3);
+            border-color: #e74c3c;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .quiz-feedback.show {
+            opacity: 1;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(0,0,0,0.9);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .code-actions {
+                flex-direction: column;
+            }
+
+            .section {
+                padding: 2rem 0;
+            }
+
+            textarea {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section h2 {
+                font-size: 2rem;
+            }
+
+            .concept-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">PROGRAMMING1</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#learn">Learn</a></li>
+                <li><a href="#practice">Practice</a></li>
+                <li><a href="#quiz">Quiz</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu" id="mobileMenu">☰</button>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>JavaScript Function Declaration</h1>
+            <p>Master the building blocks of programming with interactive examples and real-time code execution</p>
+            <button class="cta-button" onclick="scrollToSection('learn')">Get Started</button>
+        </div>
+    </section>
+
+    <main>
+        <section class="section" id="learn">
+            <div class="container">
+                <h2>What is a Function?</h2>
+                <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: #666;">
+                    Functions are the main "building blocks" of the program. They allow the code to be called many times without repetition.
+                </p>
+
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h3>📦 Reusable Code</h3>
+                        <p>A function is a reusable block of code that performs a specific task when called. Write once, use many times!</p>
+                    </div>
+                    <div class="concept-card">
+                        <h3>🔧 Building Blocks</h3>
+                        <p>Functions serve as the main building blocks of programs, helping organize and structure your code efficiently.</p>
+                    </div>
+                    <div class="concept-card">
+                        <h3>⚡ No Repetition</h3>
+                        <p>Instead of writing the same code multiple times, create a function and call it whenever needed.</p>
+                    </div>
+                </div>
+
+                <h2>Function Declaration Basics</h2>
+                <div class="code-playground">
+                    <div class="code-header">
+                        <div class="code-dot red"></div>
+                        <div class="code-dot yellow"></div>
+                        <div class="code-dot green"></div>
+                        <div class="code-title">Basic Function Declaration</div>
+                    </div>
+                    <div class="code-content">
+                        <textarea id="basicFunction">// Function Declaration Syntax
+function greet() {
+    console.log("Hello, World!");
+}
+
+// Call the function
+greet();</textarea>
+                        <div class="code-actions">
+                            <button class="btn" onclick="runCode('basicFunction')">▶ Run Code</button>
+                            <button class="btn secondary" onclick="resetCode('basicFunction')">🔄 Reset</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="output" id="basicFunction-output">Click "Run Code" to see the output</div>
+            </div>
+        </section>
+
+        <section class="section" id="parameters">
+            <div class="container">
+                <h2>Parameters & Arguments</h2>
+                <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem; color: #666;">
+                    Parameters are placeholders, Arguments are the actual values passed in
+                </p>
+
+                <div class="code-playground">
+                    <div class="code-header">
+                        <div class="code-dot red"></div>
+                        <div class="code-dot yellow"></div>
+                        <div class="code-dot green"></div>
+                        <div class="code-title">Parameters & Arguments Example</div>
+                    </div>
+                    <div class="code-content">
+                        <textarea id="parametersFunction">// Function with parameters
+function greetPerson(name, age = 25) {
+    console.log(`Hello, ${name}! You are ${age} years old.`);
+}
+
+// Multiple parameters
+function addNumbers(a, b, c) {
+    return a + b + c;
+}
+
+// Call functions with arguments
+greetPerson("Alice");
+greetPerson("Bob", 30);
+console.log("Sum:", addNumbers(5, 10, 15));</textarea>
+                        <div class="code-actions">
+                            <button class="btn" onclick="runCode('parametersFunction')">▶ Run Code</button>
+                            <button class="btn secondary" onclick="resetCode('parametersFunction')">🔄 Reset</button>
+                            <button class="btn secondary" onclick="explainCode('parametersFunction')">💡 Explain</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="output" id="parametersFunction-output">Click "Run Code" to see the output</div>
+            </div>
+        </section>
+
+        <section class="section" id="return">
+            <div class="container">
+                <h2>Return Values</h2>
+                <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem; color: #666;">
+                    The <code>return</code> keyword sends back a value. Without return, functions give back undefined.
+                </p>
+
+                <div class="code-playground">
+                    <div class="code-header">
+                        <div class="code-dot red"></div>
+                        <div class="code-dot yellow"></div>
+                        <div class="code-dot green"></div>
+                        <div class="code-title">Return Values Example</div>
+                    </div>
+                    <div class="code-content">
+                        <textarea id="returnFunction">// Function with return value
+function multiply(x, y) {
+    return x * y;
+}
+
+// Function without return (returns undefined)
+function sayHello(name) {
+    console.log(`Hello, ${name}!`);
+}
+
+// Using returned values
+const result = multiply(4, 5);
+console.log("4 × 5 =", result);
+
+const noReturn = sayHello("World");
+console.log("Function without return gives:", noReturn);</textarea>
+                        <div class="code-actions">
+                            <button class="btn" onclick="runCode('returnFunction')">▶ Run Code</button>
+                            <button class="btn secondary" onclick="resetCode('returnFunction')">🔄 Reset</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="output" id="returnFunction-output">Click "Run Code" to see the output</div>
+            </div>
+        </section>
+
+        <section class="section" id="hoisting">
+            <div class="container">
+                <h2>Function Hoisting</h2>
+                <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem; color: #666;">
+                    Function declarations are hoisted - you can call them before they're written in your code!
+                </p>
+
+                <div class="code-playground">
+                    <div class="code-header">
+                        <div class="code-dot red"></div>
+                        <div class="code-dot yellow"></div>
+                        <div class="code-dot green"></div>
+                        <div class="code-title">Hoisting Example</div>
+                    </div>
+                    <div class="code-content">
+                        <textarea id="hoistingFunction">// This works because of hoisting!
+console.log("Calling function before declaration:");
+magicFunction();
+
+// Function declaration (hoisted)
+function magicFunction() {
+    console.log("✨ This function was called before it was declared!");
+}
+
+// This would NOT work with function expressions
+// console.log(notHoisted()); // Error!
+// const notHoisted = function() { return "Error!"; };</textarea>
+                        <div class="code-actions">
+                            <button class="btn" onclick="runCode('hoistingFunction')">▶ Run Code</button>
+                            <button class="btn secondary" onclick="resetCode('hoistingFunction')">🔄 Reset</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="output" id="hoistingFunction-output">Click "Run Code" to see the output</div>
+            </div>
+        </section>
+
+        <section class="section" id="practice">
+            <div class="container">
+                <h2>Practice Playground</h2>
+                <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem; color: #666;">
+                    Create your own functions and experiment with the concepts you've learned!
+                </p>
+
+                <div class="code-playground">
+                    <div class="code-header">
+                        <div class="code-dot red"></div>
+                        <div class="code-dot yellow"></div>
+                        <div class="code-dot green"></div>
+                        <div class="code-title">Your Code Playground</div>
+                    </div>
+                    <div class="code-content">
+                        <textarea id="playground">// Write your own functions here!
+// Try creating functions with parameters, return values, etc.
+
+function calculateArea(width, height) {
+    return width * height;
+}
+
+// Call your function
+console.log("Area of 5x3 rectangle:", calculateArea(5, 3));</textarea>
+                        <div class="code-actions">
+                            <button class="btn" onclick="runCode('playground')">▶ Run Code</button>
+                            <button class="btn secondary" onclick="clearOutput('playground')">🗑 Clear Output</button>
+                            <button class="btn secondary" onclick="loadExample()">📝 Load Example</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="output" id="playground-output">Write some code and click "Run Code" to see the output</div>
+            </div>
+        </section>
+
+        <section class="section" id="quiz">
+            <div class="container">
+                <h2>Test Your Knowledge</h2>
+                <div class="quiz-container">
+                    <div class="quiz-question" id="quizQuestion">
+                        What keyword is used to declare a function in JavaScript?
+                    </div>
+                    <div class="quiz-options" id="quizOptions">
+                        <div class="quiz-option" onclick="selectOption(this, false)">var</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">let</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">function</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">const</div>
+                    </div>
+                    <div class="quiz-feedback" id="quizFeedback"></div>
+                    <button class="btn" onclick="nextQuestion()" id="nextBtn" style="display: none; margin-top: 1rem;">Next Question</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <p>&copy; 2025 PROGRAMMING1. Built for interactive learning.</p>
+            <p>Happy coding! 🚀</p>
+        </div>
+    </footer>
+
+    <script>
+        // Global variables
+        let currentQuiz = 0;
+        let selectedOption = null;
+
+        // Mobile menu toggle
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Smooth scrolling function
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const targetPosition = section.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Make scrollToSection globally available
+        window.scrollToSection = scrollToSection;
+
+        // Add click listeners to nav links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = link.getAttribute('href').substring(1);
+                scrollToSection(sectionId);
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Code execution
+        function runCode(editorId) {
+            const code = document.getElementById(editorId).value;
+            const output = document.getElementById(editorId + '-output');
+            
+            // Capture console output
+            const originalLog = console.log;
+            const logs = [];
+            
+            console.log = (...args) => {
+                logs.push(args.map(arg => 
+                    typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                ).join(' '));
+            };
+
+            try {
+                // Clear previous output
+                output.textContent = '';
+                
+                // Execute code
+                eval(code);
+                
+                // Display output
+                if (logs.length > 0) {
+                    output.textContent = logs.join('\n');
+                    output.style.color = '#333';
+                    output.style.background = '#e8f5e8';
+                    output.style.borderColor = '#4caf50';
+                } else {
+                    output.textContent = 'Code executed successfully (no output)';
+                    output.style.color = '#666';
+                    output.style.background = '#f0f0f0';
+                    output.style.borderColor = '#ddd';
+                }
+            } catch (error) {
+                output.textContent = `Error: ${error.message}`;
+                output.style.color = '#d32f2f';
+                output.style.background = '#ffebee';
+                output.style.borderColor = '#f44336';
+            } finally {
+                // Restore original console.log
+                console.log = originalLog;
+            }
+        }
+
+        // Reset code to original
+        const originalCode = {
+            basicFunction: `// Function Declaration Syntax
+function greet() {
+    console.log("Hello, World!");
+}
+
+// Call the function
+greet();`,
+            parametersFunction: `// Function with parameters
+function greetPerson(name, age = 25) {
+    console.log(\`Hello, \${name}! You are \${age} years old.\`);
+}
+
+// Multiple parameters
+function addNumbers(a, b, c) {
+    return a + b + c;
+}
+
+// Call functions with arguments
+greetPerson("Alice");
+greetPerson("Bob", 30);
+console.log("Sum:", addNumbers(5, 10, 15));`,
+            returnFunction: `// Function with return value
+function multiply(x, y) {
+    return x * y;
+}
+
+// Function without return (returns undefined)
+function sayHello(name) {
+    console.log(\`Hello, \${name}!\`);
+}
+
+// Using returned values
+const result = multiply(4, 5);
+console.log("4 × 5 =", result);
+
+const noReturn = sayHello("World");
+console.log("Function without return gives:", noReturn);`,
+            hoistingFunction: `// This works because of hoisting!
+console.log("Calling function before declaration:");
+magicFunction();
+
+// Function declaration (hoisted)
+function magicFunction() {
+    console.log("✨ This function was called before it was declared!");
+}
+
+// This would NOT work with function expressions
+// console.log(notHoisted()); // Error!
+// const notHoisted = function() { return "Error!"; };`
+        };
+
+        function resetCode(editorId) {
+            if (originalCode[editorId]) {
+                document.getElementById(editorId).value = originalCode[editorId];
+                document.getElementById(editorId + '-output').textContent = 'Click "Run Code" to see the output';
+                document.getElementById(editorId + '-output').style.color = '#666';
+                document.getElementById(editorId + '-output').style.background = '#f8f9fa';
+                document.getElementById(editorId + '-output').style.borderColor = '#e9ecef';
+            }
+        }
+
+        function clearOutput(editorId) {
+            document.getElementById(editorId + '-output').textContent = 'Write some code and click "Run Code" to see the output';
+            document.getElementById(editorId + '-output').style.color = '#666';
+            document.getElementById(editorId + '-output').style.background = '#f8f9fa';
+            document.getElementById(editorId + '-output').style.borderColor = '#e9ecef';
+        }
+
+        function explainCode(editorId) {
+            const explanations = {
+                parametersFunction: `This code demonstrates:
+• Parameters: name, age (with default value 25)
+• Multiple parameters: a, b, c in addNumbers
+• Default parameters: age = 25 means if no age is provided, it defaults to 25
+• Template literals: Using backticks (\`) for string interpolation`
+            };
+            
+            const output = document.getElementById(editorId + '-output');
+            if (explanations[editorId]) {
+                output.textContent = explanations[editorId];
+                output.style.color = '#333';
+                output.style.background = '#e3f2fd';
+                output.style.borderColor = '#2196f3';
+            }
+        }
+
+        function loadExample() {
+            const examples = [
+                `// Calculator Functions
+function add(a, b) {
+    return a + b;
+}
+
+function subtract(a, b) {
+    return a - b;
+}
+
+function divide(a, b) {
+    if (b === 0) {
+        return "Cannot divide by zero!";
+    }
+    return a / b;
+}
+
+console.log("10 + 5 =", add(10, 5));
+console.log("10 - 5 =", subtract(10, 5));
+console.log("10 ÷ 2 =", divide(10, 2));
+console.log("10 ÷ 0 =", divide(10, 0));`,
+
+                `// String Manipulation Functions
+function reverseString(str) {
+    return str.split('').reverse().join('');
+}
+
+function capitalizeWords(sentence) {
+    return sentence.split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+}
+
+function countVowels(text) {
+    const vowels = 'aeiouAEIOU';
+    let count = 0;
+    for (let char of text) {
+        if (vowels.includes(char)) count++;
+    }
+    return count;
+}
+
+console.log("Reverse 'hello':", reverseString('hello'));
+console.log("Capitalize 'hello world':", capitalizeWords('hello world'));
+console.log("Vowels in 'programming':", countVowels('programming'));`,
+
+                `// Array Functions
+function findMax(numbers) {
+    if (numbers.length === 0) return undefined;
+    let max = numbers[0];
+    for (let i = 1; i < numbers.length; i++) {
+        if (numbers[i] > max) {
+            max = numbers[i];
+        }
+    }
+    return max;
+}
+
+function average(numbers) {
+    if (numbers.length === 0) return 0;
+    const sum = numbers.reduce((total, num) => total + num, 0);
+    return sum / numbers.length;
+}
+
+const nums = [5, 2, 8, 1, 9, 3];
+console.log("Numbers:", nums);
+console.log("Maximum:", findMax(nums));
+console.log("Average:", average(nums));`
+            ];
+
+            const randomExample = examples[Math.floor(Math.random() * examples.length)];
+            document.getElementById('playground').value = randomExample;
+            clearOutput('playground');
+        }
+
+        // Quiz functionality
+        const quizData = [
+            {
+                question: "What keyword is used to declare a function in JavaScript?",
+                options: ["var", "let", "function", "const"],
+                correct: 2,
+                explanation: "The 'function' keyword is used to declare functions in JavaScript."
+            },
+            {
+                question: "What do we call the values passed to a function when calling it?",
+                options: ["Parameters", "Arguments", "Variables", "Constants"],
+                correct: 1,
+                explanation: "Arguments are the actual values passed to a function. Parameters are the placeholders in the function definition."
+            },
+            {
+                question: "What does a function return if no return statement is specified?",
+                options: ["null", "0", "undefined", "false"],
+                correct: 2,
+                explanation: "Functions without a return statement automatically return 'undefined'."
+            },
+            {
+                question: "Can you call a function declaration before it's defined in the code?",
+                options: ["No, never", "Yes, due to hoisting", "Only sometimes", "It causes an error"],
+                correct: 1,
+                explanation: "Yes! Function declarations are hoisted, meaning they can be called before they appear in the code."
+            },
+            {
+                question: "What are default parameters used for?",
+                options: ["To make functions faster", "To provide fallback values", "To prevent errors", "All of the above"],
+                correct: 3,
+                explanation: "Default parameters provide fallback values when arguments aren't provided, making functions more robust and preventing errors."
+            }
+        ];
+
+        function selectOption(element, isCorrect) {
+            // Remove previous selections
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+
+            // Mark selected option
+            element.classList.add('selected');
+            selectedOption = { element, isCorrect };
+
+            // Show all answers
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach((option, index) => {
+                if (index === quizData[currentQuiz].correct) {
+                    option.classList.add('correct');
+                } else if (option === element && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            // Show feedback
+            const feedback = document.getElementById('quizFeedback');
+            feedback.textContent = isCorrect ? 
+                `✅ Correct! ${quizData[currentQuiz].explanation}` : 
+                `❌ Incorrect. ${quizData[currentQuiz].explanation}`;
+            feedback.classList.add('show');
+
+            // Show next button
+            document.getElementById('nextBtn').style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            currentQuiz++;
+            if (currentQuiz >= quizData.length) {
+                // Quiz completed
+                document.getElementById('quizQuestion').textContent = "🎉 Congratulations! You've completed the quiz!";
+                document.getElementById('quizOptions').innerHTML = '<div style="text-align: center; padding: 2rem;"><p>You\'ve mastered JavaScript function declarations!</p><button class="btn" onclick="restartQuiz()">Restart Quiz</button></div>';
+                document.getElementById('quizFeedback').classList.remove('show');
+                document.getElementById('nextBtn').style.display = 'none';
+            } else {
+                // Load next question
+                loadQuestion();
+            }
+        }
+
+        function loadQuestion() {
+            const quiz = quizData[currentQuiz];
+            document.getElementById('quizQuestion').textContent = quiz.question;
+            
+            const optionsHTML = quiz.options.map((option, index) => 
+                `<div class="quiz-option" onclick="selectOption(this, ${index === quiz.correct})">${option}</div>`
+            ).join('');
+            
+            document.getElementById('quizOptions').innerHTML = optionsHTML;
+            document.getElementById('quizFeedback').classList.remove('show');
+            document.getElementById('nextBtn').style.display = 'none';
+            selectedOption = null;
+        }
+
+        function restartQuiz() {
+            currentQuiz = 0;
+            loadQuestion();
+        }
+
+        // Header background change on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(0, 0, 0, 0.9)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.1)';
+            }
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestion();
+        });
+    </script>
+</body>
+</html>
