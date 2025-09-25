@@ -558,6 +558,7 @@ greet();</textarea>
                         <div class="code-actions">
                             <button class="btn" onclick="runCode('basicFunction')">▶ Run Code</button>
                             <button class="btn secondary" onclick="resetCode('basicFunction')">🔄 Reset</button>
+                            <button class="btn secondary" onclick="copyCode('basicFunction')">📋 Copy Code</button>
                         </div>
                     </div>
                 </div>
@@ -619,6 +620,7 @@ console.log("Sum:", addNumbers(5, 10, 15));</textarea>
                             <button class="btn" onclick="runCode('parametersFunction')">▶ Run Code</button>
                             <button class="btn secondary" onclick="resetCode('parametersFunction')">🔄 Reset</button>
                             <button class="btn secondary" onclick="explainCode('parametersFunction')">💡 Explain</button>
+                            <button class="btn secondary" onclick="copyCode('parametersFunction')">📋 Copy Code</button>
                         </div>
                     </div>
                 </div>
@@ -674,6 +676,7 @@ console.log("Function without return gives:", noReturn);</textarea>
                             <button class="btn" onclick="runCode('returnFunction')">▶ Run Code</button>
                             <button class="btn secondary" onclick="resetCode('returnFunction')">🔄 Reset</button>
                             <button class="btn secondary" onclick="explainCode('returnFunction')">💡 Explain</button>
+                            <button class="btn secondary" onclick="copyCode('returnFunction')">📋 Copy Code</button>
                         </div>
                     </div>
                 </div>
@@ -731,6 +734,7 @@ console.log("Area of 5x3 rectangle:", calculateArea(5, 3));</textarea>
                             <button class="btn" onclick="runCode('playground')">▶ Run Code</button>
                             <button class="btn secondary" onclick="clearOutput('playground')">🗑 Clear Output</button>
                             <button class="btn secondary" onclick="loadExample()">📝 Load Example</button>
+                            <button class="btn secondary" onclick="copyCode('playground')">📋 Copy Code</button>
                         </div>
                     </div>
                 </div>
@@ -778,7 +782,7 @@ console.log("Area of 5x3 rectangle:", calculateArea(5, 3));</textarea>
     <footer id="contact">
         <div class="container">
             <p>&copy; 2025 PROGRAMMING1. Built for interactive learning.</p>
-            <p>Happy coding! 🚀 Regards lang ko sa ga basa🫶</p>
+            <p>Happy coding! 🚀</p>
         </div>
     </footer>
 
@@ -953,6 +957,61 @@ function magicFunction() {
             document.getElementById(editorId + '-output').style.color = '#666';
             document.getElementById(editorId + '-output').style.background = '#f8f9fa';
             document.getElementById(editorId + '-output').style.borderColor = '#e9ecef';
+        }
+
+        // Copy code functionality
+        function copyCode(editorId) {
+            const codeElement = document.getElementById(editorId);
+            const code = codeElement.value;
+            
+            // Use the modern Clipboard API if available
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(code).then(() => {
+                    showCopyFeedback(editorId, 'Code copied to clipboard! ✅');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    fallbackCopy(codeElement, editorId);
+                });
+            } else {
+                // Fallback for older browsers or non-secure contexts
+                fallbackCopy(codeElement, editorId);
+            }
+        }
+
+        // Fallback copy method for older browsers
+        function fallbackCopy(textElement, editorId) {
+            try {
+                textElement.select();
+                textElement.setSelectionRange(0, 99999); // For mobile devices
+                document.execCommand('copy');
+                showCopyFeedback(editorId, 'Code copied to clipboard! ✅');
+            } catch (err) {
+                console.error('Fallback copy failed: ', err);
+                showCopyFeedback(editorId, 'Copy failed. Please select and copy manually.');
+            }
+        }
+
+        // Show visual feedback when code is copied
+        function showCopyFeedback(editorId, message) {
+            const output = document.getElementById(editorId + '-output');
+            const originalText = output.textContent;
+            const originalColor = output.style.color;
+            const originalBackground = output.style.background;
+            const originalBorder = output.style.borderColor;
+            
+            // Show success message
+            output.textContent = message;
+            output.style.color = '#2e7d32';
+            output.style.background = '#e8f5e8';
+            output.style.borderColor = '#4caf50';
+            
+            // Restore original content after 2 seconds
+            setTimeout(() => {
+                output.textContent = originalText;
+                output.style.color = originalColor;
+                output.style.background = originalBackground;
+                output.style.borderColor = originalBorder;
+            }, 2000);
         }
 
         function explainCode(editorId) {
