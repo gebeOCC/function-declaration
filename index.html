@@ -672,12 +672,12 @@ const noReturn = sayHello("World");
 console.log("Function without return gives:", noReturn);</textarea>
                         <div class="code-actions">
                             <button class="btn" onclick="runCode('returnFunction')">▶ Run Code</button>
+                            <button class="btn secondary" onclick="resetCode('returnFunction')">🔄 Reset</button>
                             <button class="btn secondary" onclick="explainCode('returnFunction')">💡 Explain</button>
-                            <button class="btn secondary" onclick="explainCode('hoistingFunction')">💡 Explain</button>
                         </div>
                     </div>
                 </div>
-                <div class="output" id="hoistingFunction-output">Click "Run Code" to see the output</div>
+                <div class="output" id="returnFunction-output">Click "Run Code" to see the output</div>
             </div>
         </section>
 
@@ -741,6 +741,23 @@ console.log("Area of 5x3 rectangle:", calculateArea(5, 3));</textarea>
         <section class="section" id="quiz">
             <div class="container">
                 <h2>Test Your Knowledge</h2>
+                <div style="background: #f8f9fa; border-left: 4px solid #6c757d; padding: 1.5rem; margin: 2rem 0; border-radius: 8px;">
+                    <h3 style="color: #495057; margin-bottom: 1rem;">🧠 Quiz Instructions</h3>
+                    <div style="color: #555; line-height: 1.8;">
+                        <p style="margin-bottom: 1rem;">Test your understanding of JavaScript function declarations:</p>
+                        <ul style="margin-left: 1rem;">
+                            <li><strong>5 Questions:</strong> Covering all the concepts we've learned</li>
+                            <li><strong>Immediate Feedback:</strong> See correct answers and explanations right away</li>
+                            <li><strong>Color Coding:</strong> Green for correct, red for incorrect answers</li>
+                            <li><strong>Learn from Mistakes:</strong> Each question includes detailed explanations</li>
+                            <li><strong>Retake Anytime:</strong> Quiz can be restarted to reinforce learning</li>
+                        </ul>
+                        <div style="background: #e3f2fd; padding: 1rem; border-radius: 5px; margin-top: 1rem;">
+                            <strong>💡 Quiz Strategy:</strong>
+                            <p style="margin-top: 0.5rem; margin-bottom: 0;">Read each question carefully, think about the concepts we covered, and don't worry about getting everything right the first time - learning is the goal!</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="quiz-container">
                     <div class="quiz-question" id="quizQuestion">
                         What keyword is used to declare a function in JavaScript?
@@ -1157,37 +1174,37 @@ console.log("Invalid email test:", validateEmail("invalid-email"));`,
             output.style.borderColor = '#2196f3';
         }
 
-        // Quiz functionality
+        // Quiz functionality with enhanced explanations
         const quizData = [
             {
                 question: "What keyword is used to declare a function in JavaScript?",
                 options: ["var", "let", "function", "const"],
                 correct: 2,
-                explanation: "The 'function' keyword is used to declare functions in JavaScript."
+                explanation: "The 'function' keyword is used to declare functions in JavaScript. Unlike 'var', 'let', and 'const' which are for variables, 'function' specifically creates reusable code blocks."
             },
             {
                 question: "What do we call the values passed to a function when calling it?",
                 options: ["Parameters", "Arguments", "Variables", "Constants"],
                 correct: 1,
-                explanation: "Arguments are the actual values passed to a function. Parameters are the placeholders in the function definition."
+                explanation: "Arguments are the actual values passed to a function when calling it. Parameters are the placeholders in the function definition. For example: in greet('Alice'), 'Alice' is an argument passed to the 'name' parameter."
             },
             {
                 question: "What does a function return if no return statement is specified?",
                 options: ["null", "0", "undefined", "false"],
                 correct: 2,
-                explanation: "Functions without a return statement automatically return 'undefined'."
+                explanation: "Functions without a return statement automatically return 'undefined'. This is JavaScript's default behavior - if you don't explicitly return something, undefined is returned."
             },
             {
                 question: "Can you call a function declaration before it's defined in the code?",
                 options: ["No, never", "Yes, due to hoisting", "Only sometimes", "It causes an error"],
                 correct: 1,
-                explanation: "Yes! Function declarations are hoisted, meaning they can be called before they appear in the code."
+                explanation: "Yes! Function declarations are hoisted, meaning JavaScript internally 'moves' them to the top of their scope during compilation. This allows you to call them before they appear in the code - but this only works with function declarations, not function expressions."
             },
             {
                 question: "What are default parameters used for?",
                 options: ["To make functions faster", "To provide fallback values", "To prevent errors", "All of the above"],
                 correct: 3,
-                explanation: "Default parameters provide fallback values when arguments aren't provided, making functions more robust and preventing errors."
+                explanation: "Default parameters serve all these purposes: they provide fallback values when arguments aren't provided, help prevent errors from undefined values, and can make functions more efficient by avoiding additional checks. For example: function greet(name = 'World') ensures name always has a value."
             }
         ];
 
